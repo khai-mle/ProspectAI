@@ -49,6 +49,19 @@ docker compose up -d
 > Access the tool in your browser: <http://localhost:8501>  
 > *First‑time startup may take a minute as services initialize.*
 
+## Step 4: Load the Pre‑Built Workflows
+
+Download the JSON bundle workflows.zip from n8n folder. Then unzip workflows.zip
+# You should now have a folder of *.json workflow files
+
+Open http://localhost:5678
+
+Click Workflows → Import
+
+Drag‑and‑drop each .json file or select them all at once
+
+Save & activate as needed
+
 ---
 
 ### Repo Structure
