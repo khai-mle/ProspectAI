@@ -52,15 +52,13 @@ docker compose up -d
 ## Step 4: Load the Pre‑Built Workflows
 
 Download the JSON bundle workflows.zip from n8n folder. Then unzip workflows.zip
-# You should now have a folder of *.json workflow files
+You should now have a folder of *.json workflow files
 
-Open http://localhost:5678
-
-Click Workflows → Import
-
-Drag‑and‑drop each .json file or select them all at once
-
-Save & activate as needed
+### How to import workflows to n8n
+1. Open http://localhost:5678
+2. Click Workflows → Import
+3. Drag‑and‑drop each .json file or select them all at once
+4. Save & activate as needed
 
 ---
 
