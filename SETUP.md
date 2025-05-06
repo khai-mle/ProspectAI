@@ -22,19 +22,19 @@ Open your terminal or PowerShell and run:
 ```bash
 git clone https://github.com/khai-mle/ProspectAI.git
 cd ProspectAI
-
+``` 
 ## Step 2: Pull Prebuilt n8n Image
 To avoid building locally, pull the pre-packaged n8n backend with built-in workflows:
 
 ```bash
 docker pull ghcr.io/khai-mle/prospectai/n8n:latest
-
+```
 ## Step 3: Start the App Stack
 Run the following from the root folder:
 
 ```bash
 docker compose up -d
-
+```
 This will start:
 
 Service	Port	Description
@@ -61,12 +61,12 @@ To stop all services:
 
 ```bash
 docker compose down
-
+```
 To stop and remove data volumes:
 
 ```bash
 docker compose down -v
-
+```
 🔐 Notes
 The n8n workflows and credentials are preloaded into the Docker image.
 If changes are made to workflows, export and re-import as needed.
