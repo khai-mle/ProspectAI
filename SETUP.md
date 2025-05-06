@@ -5,7 +5,7 @@ This guide walks you through cloning the repo, running the app, and accessing al
 
 ---
 
-## ✅ Prerequisites
+## Prerequisites
 
 Before starting, ensure you have:
 
@@ -35,28 +35,34 @@ Run the following from the root folder:
 ```bash
 docker compose up -d
 ```
-This will start:
 
-Service	Port	Description
-Streamlit	- :8501	- Chat interface and PDF download
-n8n -	:5678 -	LLM + data automation backend
-Postgres - Internal	Stores - n8n credentials/workflows
-Qdrant -	:6333 -	Vector store for LLM embeddings
-Traefik -	:80, :443 -	Handles internal routing
+### What Starts
 
-Access the tool in your browser: http://localhost:8501
+| Service      | Port(s)    | Description                              |
+|--------------|-----------|------------------------------------------|
+| **Streamlit** | `:8501`   | Chat interface and PDF download          |
+| **n8n**       | `:5678`   | LLM + data‑automation backend            |
+| **Postgres**  | *internal*| Stores n8n credentials / workflows       |
+| **Qdrant**    | `:6333`   | Vector store for LLM embeddings          |
+| **Traefik**   | `:80`, `:443` | Handles internal routing           |
 
-First-time startup may take a minute as services initialize.
+> Access the tool in your browser: <http://localhost:8501>  
+> *First‑time startup may take a minute as services initialize.*
 
-📁 Repo Structure
+---
+
+### Repo Structure
+
+```text
 ├── streamlit_app/       # Python UI for user interaction
 ├── n8n/                 # Custom image folder (no build needed if pulling)
 ├── shared/              # Shared volume for logs, PDFs, etc.
 ├── docker-compose.yml   # Stack configuration
 ├── README.md
-├── SETUP.md             # ← You are here
+└── SETUP.md             # ← You are here
 
-🧪 Stopping the App
+
+Stopping the App
 To stop all services:
 
 ```bash
@@ -67,7 +73,7 @@ To stop and remove data volumes:
 ```bash
 docker compose down -v
 ```
-🔐 Notes
+Notes
 The n8n workflows and credentials are preloaded into the Docker image.
 If changes are made to workflows, export and re-import as needed.
 
