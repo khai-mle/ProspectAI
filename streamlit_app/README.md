@@ -1,6 +1,6 @@
-# AI Chatbot with n8n Integration
+# Prospect AI Chatbot with n8n Integration
 
-A Streamlit web application that provides a ChatGPT/Claude-style interface for an AI chatbot with n8n webhook integration and file upload capabilities.
+A Streamlit web application that provides a ChatGPT/Claude-style interface for an AI chatbot with n8n webhook integration and file upload capabilities. Now supports native file uploads (PDF, CSV, DOCX, etc.) and session tracking.
 
 ## Features
 
@@ -11,30 +11,27 @@ A Streamlit web application that provides a ChatGPT/Claude-style interface for a
   - Word documents (DOCX)
   - PDF files
   - Text files (TXT, JSON, XML, HTML)
+- **Native File Transfer**: Files are sent to the webhook in their original format (not just extracted text)
+- **Session Tracking**: Each conversation is tagged with a unique session ID
 - **Markdown Formatting**: Supports rich text formatting with bullet points, bold text, etc.
 
 ## Quick Start
 
 ### Windows
-```
+```sh
 run.bat
 ```
 
 ### Linux/Mac
-```
+```sh
 chmod +x run.sh
 ./run.sh
-```
-
-Or preview the UI without functionality:
-```
-streamlit run screenshot.py
 ```
 
 ## Setup
 
 1. Install the required dependencies:
-   ```
+   ```sh
    pip install -r requirements.txt
    ```
 
@@ -42,11 +39,10 @@ streamlit run screenshot.py
    - Create a new workflow in n8n
    - Add a webhook node as a trigger
    - Configure your webhook to process incoming messages and return responses
-   - The webhook should return JSON with a "content" field containing the response
-   - **Note**: An example n8n workflow is provided in `n8n-workflow-example.json`
+   - The webhook should return JSON with a `content` field containing the response
 
 3. Run the Streamlit app:
-   ```
+   ```sh
    streamlit run app.py
    ```
 
@@ -54,57 +50,50 @@ streamlit run screenshot.py
 
 ## n8n Webhook Configuration
 
-Your n8n webhook will receive JSON payloads with the following structure:
+Your n8n webhook will receive a **multipart/form-data** payload with the following fields:
 
+- `message`: The user's message text
+- `timestamp`: ISO8601 timestamp of the message
+- `session_id`: Unique session identifier for the conversation
+- `files`: One or more files, each in its original format (PDF, CSV, DOCX, etc.)
+
+### Example: Handling the Payload in n8n
+- Use the Webhook node to receive the multipart form data
+- Each file will be available in the `binary` property of the incoming item
+- The text fields (`message`, `timestamp`, `session_id`) are available in the `body` property
+
+#### Example n8n Webhook Node Output
 ```json
 {
-  "message": "The user's message text",
-  "timestamp": "2023-05-01T12:34:56.789Z",
-  "files": [
-    {
-      "name": "example.pdf",
-      "type": "application/pdf",
-      "content": "Extracted text content from the file..."
+  "body": {
+    "message": "The user's message text",
+    "timestamp": "2024-06-01T12:34:56.789Z",
+    "session_id": "a1b2c3d4-5678-90ab-cdef-1234567890ab"
+  },
+  "binary": {
+    "files": {
+      "data": "<base64-encoded file data>",
+      "fileName": "example.pdf",
+      "mimeType": "application/pdf"
     }
-  ]
+  }
 }
 ```
 
-Your webhook should return JSON with the following structure:
+### Webhook Response
 
+Your webhook should return JSON with the following structure:
 ```json
 {
   "content": "The response message with **markdown** formatting"
 }
 ```
-
-### Example n8n Workflow
-
-An example n8n workflow is included in this repository (`n8n-workflow-example.json`). To use it:
-
-1. Go to your n8n instance
-2. Click on "Workflows" in the main menu
-3. Click the "Import from file" button
-4. Select the `n8n-workflow-example.json` file
-5. Activate the workflow
-6. Copy the webhook URL from the Webhook node
-7. Paste the URL into the Streamlit app sidebar
-
-The example workflow includes:
-- A Webhook node to receive messages
-- A Code node that processes the message and simulates an AI response
-- A Respond to Webhook node that returns the response to Streamlit
-
-Note: The example workflow doesn't include actual AI processing. You'll need to modify the Code node to integrate with an AI service of your choice (like OpenAI, Claude, etc.).
-
-## Preview Demo
-
-To see a static demo of the UI without actual functionality, run:
+Or, if returning a list (for compatibility):
+```json
+[
+  { "output": "The response message with **markdown** formatting" }
+]
 ```
-streamlit run screenshot.py
-```
-
-This will show a mock conversation with sample data to help you visualize the interface before setting up the full application.
 
 ## Usage
 
