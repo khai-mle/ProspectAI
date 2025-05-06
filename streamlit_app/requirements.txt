@@ -1,5 +1,6 @@
-streamlit
-requests
-openai
-openai-agents
-google-genai 
+streamlit==1.29.0
+requests==2.31.0
+pandas==2.1.1
+openpyxl==3.1.2
+python-docx==1.0.1
+PyPDF2==3.0.1 
